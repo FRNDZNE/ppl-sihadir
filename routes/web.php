@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('guest');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home',function(){
+    
+    if (Auth::user()->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
+    }else if (Auth::user()->hasRole('dosen')) {
+        return redirect()->route('dosen.dashboard');
+    }else if(Auth::user()->hasRole('mahasiswa')){
+        return redirect()->route('mahasiswa.dashboard');
+    }
+
+    
+})->middleware('auth');
+@include('admin.php');
+@include('dosen.php');
+@include('mahasiswa.php');
