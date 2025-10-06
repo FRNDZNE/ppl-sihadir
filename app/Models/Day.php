@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Day extends Model
 {
     use HasFactory;
+    protected $table ='days';
+    protected $guarded =[];
+
+    public function jadwal()
+    {
+        return $this->hasMany('App\Models\Jadwal');
+    }
 }

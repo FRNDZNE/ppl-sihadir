@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Jam extends Model
 {
     use HasFactory;
+    protected $table ='jams';
+    protected $guarded =[];
+
+    public function jadwal()
+    {
+        return $this->belongsToMany('App\Models\Jadwal');
+    }
 }
