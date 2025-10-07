@@ -30,8 +30,6 @@ Route::get('/home',function(){
     }else if(Auth::user()->hasRole('mahasiswa')){
         return redirect()->route('mahasiswa.dashboard');
     }
-
-    
 })->middleware('auth');
 @include('admin.php');
 @include('dosen.php');
