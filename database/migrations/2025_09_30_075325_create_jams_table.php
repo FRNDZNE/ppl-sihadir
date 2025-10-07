@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('jams', function (Blueprint $table) {
             $table->id();
+            $table->string('awal');
+            $table->string('akhir');
             $table->timestamps();
         });
     }

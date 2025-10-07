@@ -20,10 +20,12 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo('App\Models\Angkatan');
     }
+
     public function kelas()
     {
         return $this->belongsTo('App\Models\Kelas');
     }
+    
     public function semester()
     {
         return $this->belongsTo('App\Models\Semester');
