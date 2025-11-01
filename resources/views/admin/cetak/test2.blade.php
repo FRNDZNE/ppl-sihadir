@@ -82,7 +82,7 @@
 <body>
     <div>
         <div class="logo-kiri text-center">
-            <img src="{{ asset('images/LOGO POLNEP (PNG).png') }}" alt="Logo">
+            <img src="{{ public_path('images/logo-polnep.png') }}" alt="Logo">
         </div>
         <div class="kop">
             <h6 class="text-center">KEMENTERIAN PENDIDIKAN, KEBUDAYAAN,</h6>

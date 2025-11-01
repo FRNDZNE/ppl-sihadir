@@ -14,7 +14,7 @@
             box-sizing: border-box;
         }
 
-        ``` .border-3 {
+        .border-3 {
             border: 3px solid black;
             display: flex;
             margin-bottom: 5px;
@@ -74,14 +74,14 @@
             width: 65px;
         }
     </style>
-    ```
+
 
 </head>
 
 <body>
     <div class="border-3">
         <div class="logo-kiri">
-            <img src="{{ asset('images/LOGO POLNEP (PNG).png') }}" alt="Logo">
+            <img src="{{ public_path('images/logo-polnep.png') }}" alt="Logo">
         </div>
         <div class="kop">
             <h6 class="text-center">REKAPITULASI ABSENSI PERKULIAHAN</h6>
@@ -90,7 +90,7 @@
             <h6 class="text-center">SEMESTER GENAP TAHUN AKADEMIK 2022/2023</h6>
         </div>
         <div class="logo-kanan">
-            <img src="{{ asset('images/Logo Elektro Asli.png') }}" alt="Logo">
+            <img src="{{ public_path('images/logo-elektro.png') }}" alt="Logo">
         </div>
     </div>
     <div style="padding-bottom: 5px; text-align:center;">
@@ -132,8 +132,8 @@
                     <td>{{ $mahasiswa->izin }}</td>
                     <td>{{ $mahasiswa->sakit }}</td>
                     <td>{{ $total }}</td>
-                    <td>-</td>
-                    <td>8</td>
+                    <td>{{ $mahasiswa->status_sp }}</td>
+                    <td>{{ $mahasiswa->kompensasi }}</td>
                 </tr>
             @endforeach
         </tbody>
