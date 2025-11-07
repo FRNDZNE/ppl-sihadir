@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <a href="{{ route('admin.mahasiswa.create') }}" class="btn btn-primary btn-md"><i class="fas fa-plus"></i> Tambah</a>
                     <hr>
-                    <table id="tables" class="table">
+                    <table id="tables" class="table text-center align-middle">
                         <thead>
                             <tr>
                                 <th>NO</th>
