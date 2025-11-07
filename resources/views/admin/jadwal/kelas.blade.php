@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <a href="{{ route('admin.penjadwalan.index', [$semester->id]) }}" class="btn btn-secondary">Kembali</a>
                     <hr>
-                    <table id="tables" class="table">
+                    <table id="tables" class="table text-center align-middle">
                         <thead>
                             <tr>
                                 <th>NO</th>
