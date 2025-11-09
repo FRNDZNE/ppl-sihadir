@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <hr>
-                    <table id="tables" class="table">
+                    <table id="tables" class="table text-center align-middle">
                         <thead>
                             <tr>
                                 <th>NO</th>
