@@ -51,7 +51,7 @@ class MatkulController extends Controller
             return redirect()->back()->with('errors','Masukan Data Terlebih Dahulu');
         }
         $semester = Semester::where('id',$id)->first();
-        $matkul = Matkul::where('semester_id',$id)->first();
+        $matkul = Matkul::where('id', $request->id)->first();
         $matkul->name = $request->name;
         $matkul->save();
         return redirect()->back()->with('success','Berhasil Mengubah Data');

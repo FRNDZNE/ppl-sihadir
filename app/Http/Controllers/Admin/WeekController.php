@@ -20,6 +20,8 @@ class WeekController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
         ]);
         if($validate->fails()){
             return redirect()->back()->with('errors','Masukan Data Terlebih Dahulu');
@@ -33,6 +35,8 @@ class WeekController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'name' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
         ]);
         if($validate->fails()){
             return redirect()->back()->with('errors','Masukan Data Terlebih Dahulu');

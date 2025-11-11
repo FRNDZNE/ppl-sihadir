@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
+@section('dosen.dashboard', 'active')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -8,23 +9,34 @@
                     <div class="card-header">Dashboard Dosen</div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6 col-sm-6 col-12">
+                            <div class="col-md-4 col-sm-12">
                                 <div class="info-box">
-                                    <span class="info-box-icon bg-info"><i class="fas fa-user-tie"></i></span>
+                                    <span class="info-box-icon bg-info"><i class="fas fa-book-open"></i></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Mata Kuliah Diampu</span>
-                                        <span class="info-box-number"></span>
+                                        <span class="info-box-number">{{ $jumlahMataKuliah }}</span>
                                     </div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
                             </div>
-                            <div class="col-md-6 col-sm-6 col-12">
+                            <div class="col-md-4 col-sm-12">
                                 <div class="info-box">
                                     <span class="info-box-icon bg-success"><i class="fas fa-users"></i></span>
                                     <div class="info-box-content">
-                                        <span class="info-box-text">Kelas</span>
-                                        <span class="info-box-number"></span>
+                                        <span class="info-box-text">Jadwal Mengajar</span>
+                                        <span class="info-box-number">{{ $data->count() }}</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-dark"><i class="fas fa-chalkboard"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Kelas Yang Diajar</span>
+                                        <span class="info-box-number">{{ $jumlahKelas }}</span>
                                     </div>
                                     <!-- /.info-box-content -->
                                 </div>

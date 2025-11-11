@@ -9,6 +9,7 @@ use App\Models\Kelas;
 use App\Models\Week;
 use App\Models\Mahasiswa;
 use App\Models\User;
+use App\Models\Absensi;
 use PDF;
 
 class CetakController extends Controller
@@ -75,13 +76,95 @@ class CetakController extends Controller
     // }
 
     // GPT core
+    // public function index_rekap($smt, $kls, $week)
+    // {
+    //     $data['semester'] = Semester::where('id', $smt)->first();
+    //     $data['kelas'] = Kelas::where('id', $kls)->first();
+    //     $data['week'] = Week::where('id', $week)->first();
+
+    //     // Ambil data mahasiswa dengan absensi alpha sampai minggu ke-n
+    //     $data['mahasiswa'] = User::with(['mahasiswa'])
+    //         ->whereHas('mahasiswa', function ($q) use ($smt, $kls) {
+    //             $q->where([
+    //                 ['semester_id', $smt],
+    //                 ['kelas_id', $kls],
+    //             ]);
+    //         })
+    //         ->with([
+    //             'absensi' => function ($q) use ($week) {
+    //                 $q->where('week_id', '<=', $week)
+    //                 ->where('status', 'a')
+    //                 ->with(['jadwal.day']); // penting: ambil day_id lewat jadwal
+    //             }
+    //         ])
+    //         ->withCount([
+    //             'absensi as sakit' => function ($q) use ($week) {
+    //                 $q->where('status', 's')->where('week_id', '<=', $week);
+    //             },
+    //             'absensi as izin' => function ($q) use ($week) {
+    //                 $q->where('status', 'i')->where('week_id', '<=', $week);
+    //             },
+    //             'absensi as alpa' => function ($q) use ($week) {
+    //                 $q->where('status', 'a')->where('week_id', '<=', $week);
+    //             },
+    //         ])
+    //         ->get();
+
+    //     foreach ($data['mahasiswa'] as $mhs) {
+    //         /** ===============================
+    //          * 1️⃣ Hitung total kompensasi
+    //          * =============================== */
+    //         $totalKompensasi = 0;
+
+    //         // Kelompokkan berdasarkan hari (via jadwal->day_id)
+    //         $groupedByDay = $mhs->absensi->groupBy(function ($item) {
+    //             return optional($item->jadwal)->day_id;
+    //         });
+
+    //         foreach ($groupedByDay as $dayId => $alphas) {
+    //             $jumlahAlpha = $alphas->count();
+
+    //             if ($jumlahAlpha == 1) {
+    //                 $kompensasi = 5;
+    //             } elseif ($jumlahAlpha > 1 && $jumlahAlpha < 8) {
+    //                 $kompensasi = 8;
+    //             } elseif ($jumlahAlpha >= 8) {
+    //                 $kompensasi = $jumlahAlpha * 2;
+    //             } else {
+    //                 $kompensasi = 0;
+    //             }
+
+    //             $totalKompensasi += $kompensasi;
+    //         }
+
+    //         $mhs->kompensasi = $totalKompensasi;
+
+    //         /** ===============================
+    //          * 2️⃣ Tentukan status SP
+    //          * =============================== */
+    //         $jamAlpa = $mhs->alpa;
+    //         if ($jamAlpa >= 38) {
+    //             $mhs->status_sp = 'SP 3';
+    //         } elseif ($jamAlpa >= 32 && $jamAlpa <= 37) {
+    //             $mhs->status_sp = 'SP 2';
+    //         } elseif ($jamAlpa >= 16 && $jamAlpa <= 31) {
+    //             $mhs->status_sp = 'SP 1';
+    //         } else {
+    //             $mhs->status_sp = '-';
+    //         }
+    //     }
+
+    //     $pdf = PDF::loadView('admin.cetak.absensi', compact('data'))
+    //         ->setPaper('a4', 'portrait');
+
+    //     return $pdf->stream();
+    // }
     public function index_rekap($smt, $kls, $week)
     {
-        $data['semester'] = Semester::where('id', $smt)->first();
-        $data['kelas'] = Kelas::where('id', $kls)->first();
-        $data['week'] = Week::where('id', $week)->first();
+        $data['semester'] = Semester::findOrFail($smt);
+        $data['kelas'] = Kelas::findOrFail($kls);
+        $data['week'] = Week::findOrFail($week);
 
-        // Ambil data mahasiswa dengan absensi alpha sampai minggu ke-n
         $data['mahasiswa'] = User::with(['mahasiswa'])
             ->whereHas('mahasiswa', function ($q) use ($smt, $kls) {
                 $q->where([
@@ -89,68 +172,53 @@ class CetakController extends Controller
                     ['kelas_id', $kls],
                 ]);
             })
-            ->with([
-                'absensi' => function ($q) use ($week) {
-                    $q->where('week_id', '<=', $week)
-                    ->where('status', 'a')
-                    ->with(['jadwal.day']); // penting: ambil day_id lewat jadwal
-                }
-            ])
-            ->withCount([
-                'absensi as sakit' => function ($q) use ($week) {
-                    $q->where('status', 's')->where('week_id', '<=', $week);
-                },
-                'absensi as izin' => function ($q) use ($week) {
-                    $q->where('status', 'i')->where('week_id', '<=', $week);
-                },
-                'absensi as alpa' => function ($q) use ($week) {
-                    $q->where('status', 'a')->where('week_id', '<=', $week);
-                },
-            ])
             ->get();
 
         foreach ($data['mahasiswa'] as $mhs) {
-            /** ===============================
-             * 1️⃣ Hitung total kompensasi
-             * =============================== */
             $totalKompensasi = 0;
+            $totalAlpa = 0;
 
-            // Kelompokkan berdasarkan hari (via jadwal->day_id)
-            $groupedByDay = $mhs->absensi->groupBy(function ($item) {
-                return optional($item->jadwal)->day_id;
-            });
+            // 🔁 hitung per minggu lalu jumlahkan
+            for ($i = 1; $i <= $week; $i++) {
+                $absensiMinggu = Absensi::where('mahasiswa_id', $mhs->id)
+                    ->where('week_id', $i)
+                    ->where('status', 'a')
+                    ->with(['jadwal.day'])
+                    ->get();
 
-            foreach ($groupedByDay as $dayId => $alphas) {
-                $jumlahAlpha = $alphas->count();
+                $groupedByDay = $absensiMinggu->groupBy(fn($item) => optional($item->jadwal)->day_id);
+                $kompenMinggu = 0;
 
-                if ($jumlahAlpha == 1) {
-                    $kompensasi = 5;
-                } elseif ($jumlahAlpha > 1 && $jumlahAlpha < 8) {
-                    $kompensasi = 8;
-                } elseif ($jumlahAlpha >= 8) {
-                    $kompensasi = $jumlahAlpha * 2;
-                } else {
-                    $kompensasi = 0;
+                foreach ($groupedByDay as $alphas) {
+                    $jumlahAlpha = $alphas->count();
+
+                    if ($jumlahAlpha == 1) {
+                        $kompenMinggu += 5;
+                    } elseif ($jumlahAlpha >= 2 && $jumlahAlpha <= 7) {
+                        $kompenMinggu += 8;
+                    } elseif ($jumlahAlpha >= 8) {
+                        $kompenMinggu += $jumlahAlpha * 2;
+                    }
                 }
 
-                $totalKompensasi += $kompensasi;
+                $totalKompensasi += $kompenMinggu;
+                $totalAlpa += $absensiMinggu->count();
             }
 
             $mhs->kompensasi = $totalKompensasi;
 
-            /** ===============================
-             * 2️⃣ Tentukan status SP
-             * =============================== */
-            $jamAlpa = $mhs->alpa;
-            if ($jamAlpa >= 38) {
+            // SP berdasarkan total jam alpa kumulatif
+            if ($totalAlpa >= 38) {
                 $mhs->status_sp = 'SP 3';
-            } elseif ($jamAlpa >= 32 && $jamAlpa <= 37) {
+            } elseif ($totalAlpa >= 32) {
                 $mhs->status_sp = 'SP 2';
-            } elseif ($jamAlpa >= 16 && $jamAlpa <= 31) {
+            } elseif ($totalAlpa >= 16) {
                 $mhs->status_sp = 'SP 1';
             } else {
                 $mhs->status_sp = '-';
             }
+
+            $mhs->alpa = $totalAlpa;
         }
 
         $pdf = PDF::loadView('admin.cetak.absensi', compact('data'))
@@ -158,6 +226,8 @@ class CetakController extends Controller
 
         return $pdf->stream();
     }
+
+    
 
 
 

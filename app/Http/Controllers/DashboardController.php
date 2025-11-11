@@ -36,8 +36,12 @@ class DashboardController extends Controller
         $data = Jadwal::where('dosen_id', Auth::user()->id)
             ->with(['kelas', 'ruang', 'day', 'jam', 'dosen', 'matkul', 'semester'])
             ->get();
+        // Hitung jumlah kelas
+        $jumlahKelas = $data->pluck('kelas_id')->unique()->count();
 
-        // return $data;
+        // Hitung jumlah mata kuliah
+        $jumlahMataKuliah = $data->pluck('matkul_id')->unique()->count();
+        // Count mahasiswa per kelas and semester;
         $counter = collect([]);
         if ($data->count() > 0) {
             $counter = Mahasiswa::select(['kelas_id', 'semester_id', DB::raw('count(*) as total')])
@@ -47,7 +51,7 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        return view('dosen.dashboard', compact('data', 'counter'));
+        return view('dosen.dashboard', compact('data', 'counter','jumlahKelas','jumlahMataKuliah'));
     }
     public function mahasiswa()
     {

@@ -37,7 +37,7 @@ class AbsensiController extends Controller
         $data['jadwal'] = Jadwal::where([
             ['semester_id',$smt],
             ['kelas_id',$kls],
-        ])->with(['kelas', 'ruang', 'day', 'jam', 'dosen', 'matkul', 'semester'])->get();
+        ])->with(['kelas', 'ruang', 'day', 'jam', 'dosen', 'matkul', 'semester'])->orderBy('day_id','asc')->get();
         // return $data;
         $counter = collect([]);
         if ($data['jadwal']->count() > 0) {

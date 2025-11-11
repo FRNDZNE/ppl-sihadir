@@ -45,32 +45,38 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $m->user->name }}</td>
                                         <td>
-                                            <button type="button" id="hadir-{{ $m->id }}"
-                                                class="btn btn-success"><i class="fas fa-user-check"></i></button>
-                                            <button type="button" id="izin-{{ $m->id }}" class="btn btn-info"><i
-                                                    class="fas fa-user-clock"></i></button>
-                                            <button type="button" id="sakit-{{ $m->id }}"
-                                                class="btn btn-warning"><i class="fas fa-user-injured"></i></button>
-                                            <button type="button" id="alpa-{{ $m->id }}"
-                                                class="btn btn-danger alpa-btn"><i class="fas fa-user-times"></i></button>
+                                            <button type="button" class="btn btn-success"
+                                                onclick="setAll('h', {{ $im }})">
+                                                <i class="fas fa-user-check"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-info"
+                                                onclick="setAll('i', {{ $im }})">
+                                                <i class="fas fa-user-clock"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-warning"
+                                                onclick="setAll('s', {{ $im }})">
+                                                <i class="fas fa-user-injured"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="setAll('a', {{ $im }})">
+                                                <i class="fas fa-user-times"></i>
+                                            </button>
                                         </td>
                                         @foreach ($jadwal->jam as $ji => $j)
                                             <td>
                                                 <div class="form-group">
-                                                    {{-- <input type="hidden" name="mahasiswa[{{ $im }}][absensi][{{ $ji }}][mahasiswa_id]" value="{{ $m->id }}"> --}}
                                                     <input type="hidden"
                                                         name="mahasiswa[{{ $im }}][absensi][{{ $ji }}][jam_id]"
                                                         value="{{ $j->id }}">
-                                                    <select id="kehadiran-{{ $m->id }}"
+                                                    @php
+                                                        $absenMahasiswa = $m->user->absensi
+                                                            ->where('jam_id', $j->id)
+                                                            ->first();
+                                                        $status = data_get($absenMahasiswa, 'status');
+                                                    @endphp
+                                                    <select
                                                         name="mahasiswa[{{ $im }}][absensi][{{ $ji }}][keterangan]"
                                                         class="form-control absen-{{ $im }}">
-                                                        @php
-
-                                                            $absenMahasiswa = $m->user->absensi
-                                                                ->where('jam_id', $j->id)
-                                                                ->first();
-                                                            $status = data_get($absenMahasiswa, 'status');
-                                                        @endphp
                                                         <option value="h" {{ $status == 'h' ? 'selected' : '' }}>Hadir
                                                         </option>
                                                         <option value="s" {{ $status == 's' ? 'selected' : '' }}>Sakit
@@ -94,5 +100,10 @@
     </div>
 @endsection
 @section('js')
-    <script></script>
+    <script>
+        function setAll(keterangan, mahasiswaIndex) {
+            // ubah semua select sesuai index mahasiswa
+            $('.absen-' + mahasiswaIndex).val(keterangan);
+        }
+    </script>
 @endsection
