@@ -74,15 +74,52 @@ class JadwalController extends Controller
             'ruang' => 'required|min:0|not_in:0',
             'dosen' => 'required|min:0|not_in:0',
             'matkul' => 'required|min:0|not_in:0',
-            'jam' => 'required|min:0|not_in:0',
+            'jam'   => 'required|array|min:1',
         ]);
-        if($validate->fails()){
-            return redirect()->back()->with('errors','Masukan Data Terlebih Dahulu');
-        }
-        $semester = Semester::where('id',$smt)->first();
-        $kelas = Kelas::where('id',$kls)->first();
-        $day = Day::where('id',$day)->first();
 
+        if ($validate->fails()) {
+            return redirect()->back()->with('errors', 'Masukan Data Terlebih Dahulu');
+        }
+
+        $semester = Semester::findOrFail($smt);
+        $kelas = Kelas::findOrFail($kls);
+        $day = Day::findOrFail($day);
+
+        // 🧠 Cek tabrakan jadwal
+        $dosenBentrok = Jadwal::where('dosen_id', $request->dosen)
+            ->where('day_id', $day->id)
+            ->whereHas('jam', function ($q) use ($request) {
+                $q->whereIn('jam_id', $request->jam);
+            })
+            ->exists();
+
+        if ($dosenBentrok) {
+            return redirect()->back()->with('errors', 'Dosen sudah memiliki jadwal pada jam tersebut.');
+        }
+
+        $ruangBentrok = Jadwal::where('ruang_id', $request->ruang)
+            ->where('day_id', $day->id)
+            ->whereHas('jam', function ($q) use ($request) {
+                $q->whereIn('jam_id', $request->jam);
+            })
+            ->exists();
+
+        if ($ruangBentrok) {
+            return redirect()->back()->with('errors', 'Ruang sudah digunakan pada jam tersebut.');
+        }
+
+        $kelasBentrok = Jadwal::where('kelas_id', $kls)
+            ->where('day_id', $day->id)
+            ->whereHas('jam', function ($q) use ($request) {
+                $q->whereIn('jam_id', $request->jam);
+            })
+            ->exists();
+
+        if ($kelasBentrok) {
+            return redirect()->back()->with('errors', 'Kelas sudah memiliki jadwal pada jam tersebut.');
+        }
+
+        // ✅ Kalau semua aman, baru simpan
         $jadwal = new Jadwal;
         $jadwal->semester_id = $semester->id;
         $jadwal->kelas_id = $kelas->id;
@@ -96,8 +133,9 @@ class JadwalController extends Controller
             $jadwal->jam()->attach($jam);
         }
 
-        return redirect()->back()->with('success','Berhasil Menambah Data');
+        return redirect()->back()->with('success', 'Berhasil Menambah Data');
     }
+
 
     public function update_jadwal(Request $request, $smt, $kls, $day)
     {
