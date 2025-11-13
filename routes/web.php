@@ -30,6 +30,7 @@ Route::get('/home',function(){
         return redirect()->route('mahasiswa.dashboard');
     }
 })->middleware('auth');
+
 @include('admin.php');
 @include('dosen.php');
 @include('mahasiswa.php');

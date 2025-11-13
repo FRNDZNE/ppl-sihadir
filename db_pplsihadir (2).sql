@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Waktu pembuatan: 07 Nov 2025 pada 07.12
+-- Waktu pembuatan: 13 Nov 2025 pada 06.23
 -- Versi server: 8.0.30
 -- Versi PHP: 8.3.22
 
@@ -37,25 +37,6 @@ CREATE TABLE `absensis` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `absensis`
---
-
-INSERT INTO `absensis` (`id`, `mahasiswa_id`, `jadwal_id`, `week_id`, `jam_id`, `status`, `created_at`, `updated_at`) VALUES
-(22, 3, 1, 1, 1, 'h', '2025-10-07 20:16:35', '2025-10-31 22:02:11'),
-(23, 3, 1, 1, 2, 'a', '2025-10-07 20:16:35', '2025-10-31 22:02:11'),
-(24, 3, 2, 1, 4, 'a', '2025-10-07 20:16:51', '2025-10-07 20:16:51'),
-(25, 3, 2, 1, 5, 'a', '2025-10-07 20:16:51', '2025-10-07 20:16:51'),
-(26, 3, 3, 1, 1, 'h', '2025-10-07 20:18:07', '2025-10-07 20:18:07'),
-(27, 3, 3, 1, 2, 'h', '2025-10-07 20:18:07', '2025-10-07 20:18:07'),
-(28, 3, 3, 1, 3, 'h', '2025-10-07 20:18:07', '2025-10-07 20:18:07'),
-(29, 3, 4, 1, 1, 'a', '2025-10-07 20:18:18', '2025-10-07 20:18:18'),
-(30, 3, 5, 1, 2, 'a', '2025-10-07 20:18:27', '2025-10-07 20:18:27'),
-(31, 3, 5, 1, 3, 'a', '2025-10-07 20:18:27', '2025-10-07 20:18:27'),
-(32, 3, 5, 1, 4, 'a', '2025-10-07 20:18:27', '2025-10-07 20:18:27'),
-(37, 3, 1, 2, 1, 'a', '2025-10-07 20:21:18', '2025-10-07 20:21:18'),
-(38, 3, 1, 2, 2, 'a', '2025-10-07 20:21:18', '2025-10-07 20:21:18');
 
 -- --------------------------------------------------------
 
@@ -121,8 +102,11 @@ CREATE TABLE `dosens` (
 --
 
 INSERT INTO `dosens` (`id`, `user_id`, `nip`, `gender`, `created_at`, `updated_at`) VALUES
-(2, 4, '197802152005011001', 'pria', '2025-10-07 17:46:58', '2025-10-07 17:46:58'),
-(4, 7, '0099', 'pria', '2025-10-31 19:02:49', '2025-10-31 19:02:49');
+(5, 9, '232410501234', 'pria', '2025-11-12 03:10:25', '2025-11-12 03:10:25'),
+(6, 10, '232410501567', 'wanita', '2025-11-12 03:10:50', '2025-11-12 03:10:50'),
+(7, 11, '232410502189', 'pria', '2025-11-12 03:11:11', '2025-11-12 03:11:11'),
+(8, 12, '232410503452', 'pria', '2025-11-12 03:11:38', '2025-11-12 03:11:38'),
+(9, 13, '232410504876', 'pria', '2025-11-12 03:12:35', '2025-11-12 03:12:35');
 
 -- --------------------------------------------------------
 
@@ -158,18 +142,6 @@ CREATE TABLE `jadwals` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data untuk tabel `jadwals`
---
-
-INSERT INTO `jadwals` (`id`, `semester_id`, `kelas_id`, `ruang_id`, `dosen_id`, `day_id`, `matkul_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 4, 1, 1, '2025-10-07 17:47:55', '2025-10-07 17:47:55'),
-(2, 1, 1, 1, 4, 2, 2, '2025-10-07 19:31:22', '2025-10-07 19:31:22'),
-(3, 1, 1, 2, 4, 3, 3, '2025-10-07 19:42:34', '2025-10-07 19:42:34'),
-(4, 1, 1, 1, 4, 4, 4, '2025-10-07 20:12:30', '2025-10-07 20:12:30'),
-(5, 1, 1, 1, 4, 4, 5, '2025-10-07 20:15:14', '2025-10-07 20:15:14'),
-(7, 1, 1, 7, 4, 5, 7, '2025-10-15 06:20:22', '2025-10-15 06:20:22');
-
 -- --------------------------------------------------------
 
 --
@@ -183,29 +155,6 @@ CREATE TABLE `jadwal_jam` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data untuk tabel `jadwal_jam`
---
-
-INSERT INTO `jadwal_jam` (`id`, `jadwal_id`, `jam_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL),
-(2, 1, 2, NULL, NULL),
-(3, 2, 4, NULL, NULL),
-(4, 2, 5, NULL, NULL),
-(5, 3, 1, NULL, NULL),
-(6, 3, 2, NULL, NULL),
-(7, 3, 3, NULL, NULL),
-(8, 4, 1, NULL, NULL),
-(9, 5, 2, NULL, NULL),
-(10, 5, 3, NULL, NULL),
-(11, 5, 4, NULL, NULL),
-(24, 7, 1, NULL, NULL),
-(25, 7, 2, NULL, NULL),
-(26, 7, 3, NULL, NULL),
-(27, 7, 4, NULL, NULL),
-(28, 7, 5, NULL, NULL),
-(29, 7, 6, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -229,11 +178,14 @@ INSERT INTO `jams` (`id`, `awal`, `akhir`, `created_at`, `updated_at`) VALUES
 (1, '07.00', '07.50', '2025-10-07 17:05:55', '2025-10-07 17:05:55'),
 (2, '07.50', '08.40', '2025-10-07 17:06:03', '2025-10-07 17:06:03'),
 (3, '08.40', '09.30', '2025-10-07 17:06:12', '2025-10-07 17:06:12'),
-(4, '10.00', '11.10', '2025-10-07 19:29:55', '2025-10-07 19:29:55'),
-(5, '11.10', '12.00', '2025-10-07 19:30:05', '2025-10-07 19:30:05'),
-(6, '12.00', '12.50', '2025-10-07 20:12:54', '2025-10-07 20:12:54'),
-(7, '12.50', '13.40', '2025-10-07 20:13:02', '2025-10-07 20:13:02'),
-(8, '13.40', '14.20', '2025-10-07 20:13:14', '2025-10-07 20:13:14');
+(4, '09.45', '10.35', '2025-10-07 19:29:55', '2025-11-12 02:27:03'),
+(5, '10.35', '11.25', '2025-10-07 19:30:05', '2025-11-12 02:27:26'),
+(6, '11.25', '12.15', '2025-10-07 20:12:54', '2025-11-12 02:27:41'),
+(7, '13.00', '13.50', '2025-10-07 20:13:02', '2025-11-12 02:28:05'),
+(8, '13.50', '14.40', '2025-10-07 20:13:14', '2025-11-12 02:28:23'),
+(10, '15.30', '16.20', '2025-11-09 21:44:49', '2025-11-09 21:44:49'),
+(11, '16.20', '17.10', '2025-11-09 21:45:13', '2025-11-09 21:45:13'),
+(12, '17.10', '18.00', '2025-11-12 02:28:45', '2025-11-12 02:28:45');
 
 -- --------------------------------------------------------
 
@@ -256,7 +208,8 @@ INSERT INTO `kelas` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'A', '2025-10-07 15:44:47', '2025-10-07 15:44:47'),
 (2, 'B', '2025-10-07 15:44:51', '2025-10-07 15:44:51'),
 (4, 'C', '2025-10-31 23:28:08', '2025-10-31 23:28:08'),
-(5, 'D', '2025-10-31 23:29:02', '2025-10-31 23:29:02');
+(5, 'D', '2025-10-31 23:29:02', '2025-10-31 23:29:02'),
+(6, 'E', '2025-11-12 03:22:00', '2025-11-12 03:22:00');
 
 -- --------------------------------------------------------
 
@@ -297,18 +250,6 @@ CREATE TABLE `matkuls` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data untuk tabel `matkuls`
---
-
-INSERT INTO `matkuls` (`id`, `semester_id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Pengantar Teknologi Informasi', '2025-10-07 17:05:34', '2025-10-07 17:05:34'),
-(2, 1, 'AI', '2025-10-07 19:30:52', '2025-10-07 19:30:52'),
-(3, 1, 'Praktikum AI', '2025-10-07 19:42:09', '2025-10-07 19:42:09'),
-(4, 1, 'Dasar Sistem Komputer', '2025-10-07 20:11:38', '2025-10-07 20:11:38'),
-(5, 1, 'Agile', '2025-10-07 20:11:41', '2025-10-07 20:11:41'),
-(7, 1, 'Mata Kuliah A', '2025-10-15 06:19:44', '2025-10-15 06:19:44');
-
 -- --------------------------------------------------------
 
 --
@@ -344,7 +285,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (35, '2025_09_30_075341_create_matkuls_table', 1),
 (36, '2025_09_30_075424_create_jadwals_table', 1),
 (37, '2025_09_30_075437_create_absensis_table', 1),
-(38, '2025_09_30_081446_create_jadwal_jam_table', 1);
+(38, '2025_09_30_081446_create_jadwal_jam_table', 1),
+(39, '2025_11_10_062627_add_period_to_weeks_table', 2);
 
 -- --------------------------------------------------------
 
@@ -473,8 +415,14 @@ INSERT INTO `role_user` (`role_id`, `user_id`, `user_type`) VALUES
 (2, 4, 'App\\Models\\User'),
 (2, 5, 'App\\Models\\User'),
 (2, 7, 'App\\Models\\User'),
+(2, 9, 'App\\Models\\User'),
+(2, 10, 'App\\Models\\User'),
+(2, 11, 'App\\Models\\User'),
+(2, 12, 'App\\Models\\User'),
+(2, 13, 'App\\Models\\User'),
 (3, 3, 'App\\Models\\User'),
-(3, 6, 'App\\Models\\User');
+(3, 6, 'App\\Models\\User'),
+(3, 8, 'App\\Models\\User');
 
 -- --------------------------------------------------------
 
@@ -519,10 +467,7 @@ CREATE TABLE `semesters` (
 --
 
 INSERT INTO `semesters` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'I', '2025-10-07 15:44:21', '2025-10-07 15:44:21'),
-(2, 'II', '2025-10-07 15:44:25', '2025-10-07 15:44:25'),
-(3, 'III', '2025-10-07 15:44:28', '2025-10-07 15:44:28'),
-(4, 'IV', '2025-10-07 15:44:32', '2025-10-07 15:44:32');
+(1, 'I', '2025-10-07 15:44:21', '2025-10-07 15:44:21');
 
 -- --------------------------------------------------------
 
@@ -548,8 +493,11 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', 'admin@email.com', NULL, '$2y$12$eQ9ICQ1Wi1YzNjxa3LgWSuyNlpHqkh6AlxySdTNR7CAbpcpx0anVO', NULL, '2025-10-05 20:22:28', '2025-10-05 20:22:28'),
 (3, 'Hafiz', 'hafiz@email.com', NULL, '$2y$12$NcGFotjpHkc7eFu.BFnWMeJkycospYmLCKglzo22nXVK8TRx//1nG', NULL, '2025-10-07 15:45:24', '2025-10-31 17:45:47'),
-(4, 'DANISY ZILDJIAN', 'zidan@email.com', NULL, '$2y$12$K.lWs7nZbPY8Uh7NVYQqSeGn.nYhmc8PM/NCwO4F.E9PUuik6BNl.', NULL, '2025-10-07 17:46:58', '2025-10-31 22:01:20'),
-(7, 'hIII', 'ha@email.com', NULL, '$2y$12$RsCjoNzLlLF74vCFHoYQq.TSkItbg5kVDN7MDlT8zm6PkzmzyUqFS', NULL, '2025-10-31 19:02:49', '2025-10-31 19:02:49');
+(9, 'Suharsono', 'suharsono@email.com', NULL, '$2y$12$JWXFc3ty5d/TwzUsM0rbQuwdlm3aTpgBcZbaq0K.3QPLP3lU4yil6', NULL, '2025-11-12 03:10:25', '2025-11-12 03:33:41'),
+(10, 'Neni Firdyanti', 'neni@email.com', NULL, '$2y$12$p1VnN5eQnjPJFnbX57JEMO2s/cPtOxKWOzXQ5Fzedmh8raxMVTV5W', NULL, '2025-11-12 03:10:49', '2025-11-12 03:33:55'),
+(11, 'Muhammad Hasbi', 'hasbi@email.com', NULL, '$2y$12$NJHA30TBVySOfGIX.Sr3YerOp6uKkPPNNmsvMIa5iaK6qLx.X7V1G', NULL, '2025-11-12 03:11:11', '2025-11-12 03:34:08'),
+(12, 'Tommi Suryanto', 'tommy@email.com', NULL, '$2y$12$4TsuUi4SR9nk.AiiaRur5e4EABuAmXj6oPSmGMN/O6ShOQTtQ0iK2', NULL, '2025-11-12 03:11:38', '2025-11-12 03:34:22'),
+(13, 'Suheri', 'suheri@email.com', NULL, '$2y$12$qw8h9mYYnG5W84ivl2cfEeL33X3jEuDHjoW8aYrW9QAplFfn968Z6', NULL, '2025-11-12 03:12:35', '2025-11-12 03:34:35');
 
 -- --------------------------------------------------------
 
@@ -560,6 +508,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 CREATE TABLE `weeks` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -568,10 +518,9 @@ CREATE TABLE `weeks` (
 -- Dumping data untuk tabel `weeks`
 --
 
-INSERT INTO `weeks` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Minggu 1', '2025-10-07 15:41:27', '2025-10-07 15:41:27'),
-(2, 'Minggu 2', '2025-10-07 17:06:27', '2025-10-07 17:06:27'),
-(3, 'Minggu 3', '2025-10-07 17:06:31', '2025-10-07 17:06:31');
+INSERT INTO `weeks` (`id`, `name`, `start_date`, `end_date`, `created_at`, `updated_at`) VALUES
+(1, 'Minggu 1', '2025-11-03', '2025-11-07', '2025-10-07 15:41:27', '2025-11-09 23:42:37'),
+(2, 'Minggu 2', '2025-11-10', '2025-11-14', '2025-10-07 17:06:27', '2025-11-09 23:42:54');
 
 --
 -- Indexes for dumped tables
@@ -758,7 +707,7 @@ ALTER TABLE `weeks`
 -- AUTO_INCREMENT untuk tabel `absensis`
 --
 ALTER TABLE `absensis`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT untuk tabel `angkatans`
@@ -776,7 +725,7 @@ ALTER TABLE `days`
 -- AUTO_INCREMENT untuk tabel `dosens`
 --
 ALTER TABLE `dosens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -788,43 +737,43 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `jadwals`
 --
 ALTER TABLE `jadwals`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `jadwal_jam`
 --
 ALTER TABLE `jadwal_jam`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT untuk tabel `jams`
 --
 ALTER TABLE `jams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswas`
 --
 ALTER TABLE `mahasiswas`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `matkuls`
 --
 ALTER TABLE `matkuls`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT untuk tabel `permissions`
@@ -860,13 +809,13 @@ ALTER TABLE `semesters`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `weeks`
 --
 ALTER TABLE `weeks`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

@@ -55,22 +55,73 @@ class DashboardController extends Controller
     }
     public function mahasiswa()
     {
+        $userId = Auth::user()->mahasiswa->id;
+
         $absensi['hadir'] = Absensi::where([
-            ['mahasiswa_id',Auth::user()->id],
-            ['status','h'],
+            ['mahasiswa_id', $userId],
+            ['status', 'h'],
         ])->get();
+
         $absensi['sakit'] = Absensi::where([
-            ['mahasiswa_id',Auth::user()->id],
-            ['status','s'],
+            ['mahasiswa_id', $userId],
+            ['status', 's'],
         ])->get();
+
         $absensi['izin'] = Absensi::where([
-            ['mahasiswa_id',Auth::user()->id],
-            ['status','i'],
+            ['mahasiswa_id', $userId],
+            ['status', 'i'],
         ])->get();
-        $absensi['alpa'] = Absensi::where([
-            ['mahasiswa_id',Auth::user()->id],
-            ['status','a'],
-        ])->get();
-        return view('mahasiswa.dashboard',compact('absensi'));
+
+        $absensi['alpa'] = Absensi::with(['jadwal.day'])
+            ->where([
+                ['mahasiswa_id', $userId],
+                ['status', 'a'],
+            ])
+            ->get();
+
+        // ===============================
+        // 🔢 Hitung total kompensasi
+        // ===============================
+        $totalKompensasi = 0;
+
+        // Kelompokkan alpa berdasarkan hari
+        $groupedByDay = $absensi['alpa']->groupBy(function ($item) {
+            return optional($item->jadwal)->day_id;
+        });
+
+        foreach ($groupedByDay as $dayId => $alphas) {
+            $jumlahAlpha = $alphas->count();
+
+            if ($jumlahAlpha == 1) {
+                $kompensasi = 5;
+            } elseif ($jumlahAlpha > 1 && $jumlahAlpha < 8) {
+                $kompensasi = 8;
+            } elseif ($jumlahAlpha >= 8) {
+                $kompensasi = $jumlahAlpha * 2;
+            } else {
+                $kompensasi = 0;
+            }
+
+            $totalKompensasi += $kompensasi;
+        }
+
+        $absensi['total_kompensasi'] = $totalKompensasi;
+
+        // ===============================
+        // 📋 Hitung status SP
+        // ===============================
+        $jamAlpa = $absensi['alpa']->count();
+        if ($jamAlpa >= 38) {
+            $absensi['status_sp'] = 'SP 3';
+        } elseif ($jamAlpa >= 32 && $jamAlpa <= 37) {
+            $absensi['status_sp'] = 'SP 2';
+        } elseif ($jamAlpa >= 16 && $jamAlpa <= 31) {
+            $absensi['status_sp'] = 'SP 1';
+        } else {
+            $absensi['status_sp'] = '-';
+        }
+
+        return view('mahasiswa.dashboard', compact('absensi'));
     }
+
 }

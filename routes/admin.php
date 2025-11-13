@@ -124,9 +124,10 @@
             Route::get('/{semester}/{kelas}',[CetakController::class,'index_minggu'])->name('admin.cetak.index.minggu');
             Route::get('/{semester}/{kelas}/{minggu}',[CetakController::class,'index_rekap'])->name('admin.rekap');
         });
-
-        Route::get('/test-cetak',[CetakController::class,'testCetak'])->name('cetak');
         Route::get('/test-cetak-sp',[CetakController::class,'testCetakSP'])->name('cetaksp');
+        Route::get('/cetak-surat-sp/{mahasiswa_id}',[CetakController::class,'cetakSp'])->name('admin.cetak.sp');
+        Route::get('/test-cetak',[CetakController::class,'testCetak'])->name('cetak');
+
 
         // Absensi Dari Halaman Admin
         Route::prefix('absensi')->group(function(){
