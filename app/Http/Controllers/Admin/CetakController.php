@@ -9,6 +9,7 @@ use App\Models\Week;
 use App\Models\Mahasiswa;
 use App\Models\User;
 use App\Models\Absensi;
+use App\Models\Jadwal;
 use Carbon\Carbon;
 use PDF;
 
@@ -51,18 +52,28 @@ class CetakController extends Controller
             ->get();
 
         foreach ($data['mahasiswa'] as $mhs) {
+
             $totalKompensasi = 0;
             $totalAlpa = 0;
+            $totalIzin = 0;
+            $totalSakit = 0;
 
-            // 🔁 hitung per minggu lalu jumlahkan
+            // 🔁 loop minggu
             for ($i = 1; $i <= $week; $i++) {
-                $absensiMinggu = Absensi::where('mahasiswa_id', $mhs->id)
+
+                // ============================
+                //      ALPA per minggu
+                // ============================
+                $absensiAlpa = Absensi::where('mahasiswa_id', $mhs->id)
                     ->where('week_id', $i)
                     ->where('status', 'a')
                     ->with(['jadwal.day'])
                     ->get();
 
-                $groupedByDay = $absensiMinggu->groupBy(fn($item) => optional($item->jadwal)->day_id);
+                $groupedByDay = $absensiAlpa->groupBy(
+                    fn($item) => optional($item->jadwal)->day_id
+                );
+
                 $kompenMinggu = 0;
 
                 foreach ($groupedByDay as $alphas) {
@@ -78,12 +89,38 @@ class CetakController extends Controller
                 }
 
                 $totalKompensasi += $kompenMinggu;
-                $totalAlpa += $absensiMinggu->count();
+                $totalAlpa += $absensiAlpa->count();
+
+
+                // ============================
+                //      IZIN per minggu
+                // ============================
+                $izinMinggu = Absensi::where('mahasiswa_id', $mhs->id)
+                    ->where('week_id', $i)
+                    ->where('status', 'i')
+                    ->count();
+
+                $totalIzin += $izinMinggu;
+
+
+                // ============================
+                //      SAKIT per minggu
+                // ============================
+                $sakitMinggu = Absensi::where('mahasiswa_id', $mhs->id)
+                    ->where('week_id', $i)
+                    ->where('status', 's')
+                    ->count();
+
+                $totalSakit += $sakitMinggu;
             }
 
+            // Set nilai ke object
+            $mhs->alpa = $totalAlpa;
+            $mhs->izin = $totalIzin;
+            $mhs->sakit = $totalSakit;
             $mhs->kompensasi = $totalKompensasi;
 
-            // SP berdasarkan total jam alpa kumulatif
+            // Hitung SP
             if ($totalAlpa >= 38) {
                 $mhs->status_sp = 'SP 3';
             } elseif ($totalAlpa >= 32) {
@@ -93,8 +130,6 @@ class CetakController extends Controller
             } else {
                 $mhs->status_sp = '-';
             }
-
-            $mhs->alpa = $totalAlpa;
         }
 
         $pdf = PDF::loadView('admin.cetak.absensi', compact('data'))
@@ -103,16 +138,17 @@ class CetakController extends Controller
         return $pdf->stream();
     }
 
-    public function testCetak()
-    {
-        $paper = array(0,0,950,1650);
-        $pdf = PDF::loadView('admin.cetak.test')->setPaper($paper);
-        return $pdf->stream();
-    }
-    public function testCetakSP(){
-        $pdf = PDF::loadView('admin.cetak.testcetak')->setPaper('a4','portrait');
-        return $pdf->stream();
-    }
+
+    // public function testCetak()
+    // {
+    //     $paper = array(0,0,950,1650);
+    //     $pdf = PDF::loadView('admin.cetak.test')->setPaper($paper);
+    //     return $pdf->stream();
+    // }
+    // public function testCetakSP(){
+    //     $pdf = PDF::loadView('admin.cetak.testcetak')->setPaper('a4','portrait');
+    //     return $pdf->stream();
+    // }
 
     // GPT MODE ON Cetak Surat Peringatan
 
@@ -131,7 +167,7 @@ class CetakController extends Controller
             ->latest('week_id')
             ->first();
 
-        $mingguKe = $latestWeek ? $latestWeek->week->minggu_ke : '-';
+        $mingguKe = $latestWeek ? $latestWeek->week->name : '-';
 
         // Tahun akademik (otomatis mengikuti tahun berjalan)
         $tahunSekarang = \Carbon\Carbon::now()->year;
@@ -173,6 +209,32 @@ class CetakController extends Controller
         ])->setPaper('a4', 'portrait');
 
         return $pdf->stream("Surat_Peringatan_{$mahasiswa->nama}_{$spLevel}.pdf");
+    }
+
+    public function cetakJadwal($id)
+    {
+        // Ambil semua jadwal dalam semester tersebut
+        $jadwals = Jadwal::with([
+            'kelas',
+            'ruang',
+            'dosen',
+            'day',
+            'matkul',
+            'jam',
+            'semester'
+        ])
+        ->where('semester_id', $id)
+        ->orderBy('kelas_id')
+        ->orderBy('day_id')
+        ->orderBy('matkul_id')
+        ->get();
+
+        // Kirim ke view untuk DOMPDF
+        $pdf = Pdf::loadView('admin.cetak.jadwal', [
+            'jadwals' => $jadwals
+        ]);
+
+        return $pdf->stream('jadwal-semester.pdf');
     }
 
 

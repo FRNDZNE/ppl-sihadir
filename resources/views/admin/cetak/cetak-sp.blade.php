@@ -154,7 +154,7 @@
     </table>
     <br>
     <p>
-        Berdasarkan rekapitulasi aktivitas kehadiran Saudara sampai minggu ke-{{ $mingguKe }}
+        Berdasarkan rekapitulasi aktivitas kehadiran Saudara sampai minggu ke- {{ $mingguKe }}
         semester Ganjil Tahun Akademik {{ $tahunAkademik }}, jumlah ketidakhadiran (alpa)
         telah mencapai {{ $totalAlpa }} jam.
     </p>

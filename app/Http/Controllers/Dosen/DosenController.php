@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Week;
 use App\Models\Mahasiswa;
 use App\Models\Absensi;
+use App\Models\Dosen;
 use Auth;
 
 class DosenController extends Controller

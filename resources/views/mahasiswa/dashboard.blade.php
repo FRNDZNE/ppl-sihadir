@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-12">
                                 <div class="info-box">
-                                    <span class="info-box-icon bg-info"><i class="fas fa-user-check"></i></span>
+                                    <span class="info-box-icon bg-danger"><i class="fas fa-exclamation-circle"></i></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Status SP</span>
                                         <span class="info-box-number">{{ $absensi['status_sp'] }}</span>
@@ -78,7 +78,7 @@
                             </div>
                             <div class="col-md-6 col-sm-6 col-12">
                                 <div class="info-box">
-                                    <span class="info-box-icon bg-info"><i class="fas fa-user-check"></i></span>
+                                    <span class="info-box-icon bg-warning"><i class="fas fa-flag"></i></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Kompensasi</span>
                                         <span class="info-box-number">{{ $absensi['total_kompensasi'] }} JAM</span>

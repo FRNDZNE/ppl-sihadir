@@ -28,7 +28,8 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-info btn-md">Cetak Jadwal</a>
+                                            <a href="{{ route('admin.penjadwalan.cetak', $s->id) }}"
+                                                class="btn btn-info btn-md" target="_blank">Cetak Jadwal</a>
                                         </td>
                                     </tr>
                                 @endforeach

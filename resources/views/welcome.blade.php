@@ -40,13 +40,21 @@
                                 <h2>Login</h2>
                                 <p>Input your email, and password</p>
                             </div>
-                            <div class="input-group mb-3">
-                                <input type="email" class="form-control form-control-lg bg-light fs-6"
-                                    placeholder="Email Address" name="email" name="email">
+                            <div class="form-group mb-3">
+                                <input type="email"
+                                    class="form-control form-control-lg bg-light fs-6 @error('email') is-invalid @enderror"
+                                    placeholder="Email Address" name="email" name="email" value="{{ old('email') }}">
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
-                            <div class="input-group mb-5">
-                                <input type="password" class="form-control form-control-lg bg-light fs-6"
+                            <div class="form-group mb-5">
+                                <input type="password"
+                                    class="form-control form-control-lg bg-light fs-6 @error('password') is-invalid @enderror"
                                     placeholder="Password" name="password">
+                                @error('password')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="input-group mb-5">
                                 <button type="submit" class="btn btn-lg btn-primary w-100 fs-6">Login</button>

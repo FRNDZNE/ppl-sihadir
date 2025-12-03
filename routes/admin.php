@@ -12,6 +12,7 @@
     use App\Http\Controllers\Admin\MatkulController;
     use App\Http\Controllers\Admin\CetakController;
     use App\Http\Controllers\Admin\AbsensiController;
+    use App\Http\Controllers\Admin\AdminController;
 
 
 
@@ -19,7 +20,8 @@
     Route::middleware(['auth','role:admin'])->prefix('admin')->group(function(){
         // Show Dashboard
         Route::get('/dashboard',[App\Http\Controllers\DashboardController::class,'admin'])->name('admin.dashboard');
-
+        Route::get('/profile',[AdminController::class,'profile'])->name('admin.profile');
+        Route::post('/profile/update',[AdminController::class,'update_admin'])->name('admin.update');
         // Route CRUD DOSEN
         Route::prefix('dosen')->group(function(){
             Route::get('/',[DosenController::class,'index'])->name('admin.dosen.index');
@@ -109,6 +111,7 @@
         Route::prefix('penjadwalan')->group(function(){
             Route::get('/',[JadwalController::class,'index'])->name('admin.penjadwalan.index');
             Route::get('/{smt}',[JadwalController::class,'index_smt'])->name('admin.penjadwalan.semester.index');
+             Route::get('/{smt}/cetak',[CetakController::class,'cetakJadwal'])->name('admin.penjadwalan.cetak');
             Route::get('/{smt}/{kls}',[JadwalController::class,'index_kls'])->name('admin.penjadwalan.kelas.index');
             // Penjadwalan based on Semester, Class and Day
             Route::get('/{smt}/{kls}/{day}',[JadwalController::class,'index_jadwal'])->name('admin.penjadwalan.hari.index');

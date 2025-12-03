@@ -23,13 +23,20 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                                                                                                        with font-awesome or any other icon font library -->
+                        <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="{{ route('admin.dashboard') }}" class="nav-link @yield('admin.dashboard')">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.profile') }}" class="nav-link @yield('admin.profile')">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    Profile
                                 </p>
                             </a>
                         </li>
@@ -145,8 +152,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-                                                                                                        with font-awesome or any other icon font library -->
+                        <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="{{ route('dosen.dashboard') }}" class="nav-link @yield('dosen.dashboard')">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -182,7 +188,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                                                                                                        with font-awesome or any other icon font library -->
+                                                                                                                                                with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="{{ route('mahasiswa.dashboard') }}" class="nav-link @yield('mahasiswa.dashboard')">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
