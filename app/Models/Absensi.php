@@ -19,4 +19,9 @@ class Absensi extends Model
     {
         return $this->belongsTo(Jadwal::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'mahasiswa_id');
+    }
 }

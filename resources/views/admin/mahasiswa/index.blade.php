@@ -29,8 +29,8 @@
                                         <td>{{ $d->mahasiswa->nim }}</td>
                                         <td>{{ $d->name }}</td>
                                         <td>
-                                            <a href="{{ route('admin.cetak.sp', $d->mahasiswa->id) }}"
-                                                class="btn btn-info btn-md"><i class="fas fa-print"></i></a>
+                                            <a href="{{ route('admin.cetak.sp', $d->id) }}" class="btn btn-info btn-md"
+                                                target="_blank"><i class="fas fa-print"></i></a>
                                             <a href="{{ route('admin.mahasiswa.edit', $d->id) }}" class="btn btn-warning"><i
                                                     class="fas fa-edit"></i></a>
                                             <!-- Button trigger modal -->

@@ -55,7 +55,7 @@ class DashboardController extends Controller
     }
     public function mahasiswa()
     {
-        $userId = Auth::user()->mahasiswa->id;
+        $userId = Auth::user()->id;
 
         $absensi['hadir'] = Absensi::where([
             ['mahasiswa_id', $userId],

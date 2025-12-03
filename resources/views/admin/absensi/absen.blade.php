@@ -45,7 +45,7 @@
                                 @foreach ($data['mahasiswa'] as $im => $m)
                                     <tr>
                                         <input type="hidden" name="mahasiswa[{{ $im }}][id]"
-                                            value="{{ $m->id }}">
+                                            value="{{ $m->user->id }}">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $m->user->name }}</td>
                                         <td>

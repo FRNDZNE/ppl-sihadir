@@ -154,8 +154,8 @@ class CetakController extends Controller
 
     public function cetakSp($mahasiswa_id)
     {
-        $mahasiswa = Mahasiswa::with(['kelas', 'semester', 'user'])->findOrFail($mahasiswa_id);
-
+        $mahasiswa = Mahasiswa::with(['kelas', 'semester', 'user'])->where('user_id',$mahasiswa_id)->first();
+        // return $mahasiswa;
         // Hitung total jam alpa
         $totalAlpa = Absensi::where('mahasiswa_id', $mahasiswa_id)
             ->where('status', 'a')
