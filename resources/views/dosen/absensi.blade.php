@@ -1,7 +1,15 @@
 @extends('layouts.app')
 @section('title', 'Absensi')
 @section('dosen.absensi', 'active')
-
+@section('css')
+    <style>
+        #absensiTable th,
+        #absensiTable td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="container">
         <div class="row justify-content-center">

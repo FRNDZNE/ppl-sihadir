@@ -15,7 +15,6 @@
                                 <tr>
                                     <th>NO</th>
                                     <th>SEMESTER</th>
-                                    <th>AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -26,10 +25,6 @@
                                             <a href="{{ route('admin.penjadwalan.semester.index', $s->id) }}">Semester
                                                 {{ $s->name }}
                                             </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.penjadwalan.cetak', $s->id) }}"
-                                                class="btn btn-info btn-md" target="_blank">Cetak Jadwal</a>
                                         </td>
                                     </tr>
                                 @endforeach
